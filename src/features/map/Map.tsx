@@ -1,84 +1,167 @@
-import React from "react";
-import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
-
-async function getSchoolData() {
-  const URL = "https://data.cityofnewyork.us/resource/uq7m-95z8.json";
-  const data = await fetch(URL);
-  const jsonData = await data.json();
-  console.log("School data", jsonData);
-}
-
-async function getMentalHealthData() {
-  const URL = "https://data.ny.gov/resource/6nvr-tbv8.json";
-  const data = await fetch(URL);
-  const jsonData = await data.json();
-  console.log("Mental Health data", jsonData);
-}
+import React, { useEffect, useState, useRef } from "react";
+import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import {
+  fetchData,
+  selectArrests,
+  selectMentalHealth,
+  selectStatus,
+  selectSchools,
+  selectShooting,
+} from "../cityData/cityDataSlice";
+import MapDropDown from "./MapDropDown";
+import { selectFilter, selectCenter } from "./mapSlice";
 
 function MapWrapper() {
-  const API_KEY: string = process.env.REACT_APP_GOOGLE_MAPS_KEY!;
-
-  const { isLoaded } = useLoadScript({
-    googleMapsApiKey: API_KEY,
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_KEY!,
   });
-  return isLoaded === false ? <div>Loading...</div> : <Map />;
+  const status = useAppSelector(selectStatus);
+
+  if (loadError) {
+    return (
+      <div>
+        {loadError.name}: {loadError.message}
+      </div>
+    );
+  }
+  return !isLoaded || status === "loading" ? (
+    <div>Loading...</div>
+  ) : (
+    <>
+      <MapDropDown />
+      <Map />
+    </>
+  );
 }
 
 const Map = () => {
-  
-  interface Arrest {
-    latitude: string;
-    longitude: string;
-    arrest_key: string;
-    geocoded_column: {
-      coordinaates: number[];
-      type: string;
-    };
-    ofns_desc: string;
-    pd_desc: string;
-  }
+  const mentalHealth = useAppSelector(selectMentalHealth);
+  const arrests = useAppSelector(selectArrests);
+  const status = useAppSelector(selectStatus);
+  const mapFilter = useAppSelector(selectFilter);
+  const schools = useAppSelector(selectSchools);
+  const shootings = useAppSelector(selectShooting);
 
-  const [arrests, setArrests] = React.useState<[] | Array<Arrest>>([]);
+  const defaultCenter =
+    useAppSelector(
+      selectCenter
+    ); /* for some reason, this doesnt reset the location of the map every rerender, look more into this */
 
-  React.useEffect(() => {
-    if (arrests.length !== 0) return;
-    async function getArrestsData() {
-      try {
-        const URL = "https://data.cityofnewyork.us/resource/uip8-fykc.json";
-        const data = await fetch(URL);
-        const jsonData = await data.json();
-        setArrests(jsonData);
-      } catch (err) {
-        console.log(err);
-      }
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (status === "complete") return;
+    dispatch(fetchData());
+  }, [dispatch, status]);
+
+  const renderData = () => {
+    if (status !== "complete") return;
+
+    function renderArrest() {
+      return arrests.map((arr) => {
+        const lat = parseFloat(arr.latitude);
+        const lng = parseFloat(arr.longitude);
+
+        return (
+          <Marker key={arr.arrest_key} position={{ lat: lat, lng: lng }} />
+        );
+      });
     }
-    getArrestsData();
-  }, [arrests]);
 
-  const center = React.useMemo(() => ({ lat: 44, lng: -80 }), []);
+    function renderMentalHealth() {
+      const mentalHealthRenderable = mentalHealth.filter((el) =>
+        Object.hasOwn(el, "georeference")
+      );
+      return mentalHealthRenderable.map((el, i) => {
+        const lng = el.georeference.coordinates[0];
+        const lat = el.georeference.coordinates[1];
 
-  const renderCrimes = () => {
-    if (!arrests.length) return;
-    console.log(arrests);
-    return arrests.map((arr: Arrest) => {
-      const lat: number = parseFloat(arr.latitude);
-      const lng: number = parseFloat(arr.longitude);
+        return <Marker key={i} position={{ lat: lat, lng: lng }} />;
+      });
+    }
+    function renderSchools() {
+      return schools.map((arr) => {
+        const lat = parseFloat(arr.latitude);
+        const lng = parseFloat(arr.longitude);
 
-      return <Marker key={arr.arrest_key} position={{ lat: lat, lng: lng }} />;
-    });
+        return <Marker key={arr.dbn} position={{ lat: lat, lng: lng }} />;
+      });
+    }
+    function renderShootings() {
+      const renderable = shootings.filter((el) =>
+        Object.hasOwn(el, "latitude")
+      );
+      console.log(renderable);
+      return renderable.map((arr, i) => {
+        const lat = parseFloat(arr.latitude!);
+        const lng = parseFloat(arr.longitude!);
+
+        return (
+          <Marker
+            key={arr.incident_key + "index:" + i}
+            position={{ lat: lat, lng: lng }}
+          />
+        );
+      });
+    }
+
+    switch (mapFilter) {
+      case "Arrests":
+        return renderArrest();
+      case "Mental Health Facilities":
+        return renderMentalHealth();
+      case "Shootings":
+        return renderShootings();
+      case "Schools":
+        return renderSchools();
+      default:
+        break;
+    }
+  };
+  const [mapRef, setMapRef] = useState<google.maps.Map | null>(null);
+  const handleOnLoad = (map: google.maps.Map) => {
+    setMapRef(map);
+    setCurrBounds(JSON.stringify(mapRef?.getBounds()));
+  };
+  const [currBounds, setCurrBounds] = useState("init");
+
+  const handleBoundsChange = () => {
+    setCurrBounds(
+      JSON.stringify(mapRef?.getBounds())
+    ); /* json.stringify is performing some magic here because if i console.log(), it looks completely diff */
+    console.log(mapRef);
+  };
+
+  const nycWidePanBounds = {
+    south: 40.45026661243767,
+    west: -74.36470970116127,
+    north: 40.99200251835952,
+    east: -73.38006004295815,
   };
 
   return (
-    <GoogleMap
-      zoom={10}
-      center={center}
-      mapContainerStyle={{
-        width: "80%",
-        height: "100vh",
-      }}
-    >
-      {renderCrimes()}
-    </GoogleMap>
+    <>
+      <p>{currBounds}</p>
+      <GoogleMap
+        onBoundsChanged={handleBoundsChange}
+        onLoad={handleOnLoad}
+        zoom={15}
+        center={defaultCenter}
+        mapContainerStyle={{
+          width: "80%",
+          height: "100vh",
+        }}
+        options={{
+          restriction: {
+            latLngBounds: nycWidePanBounds,
+            strictBounds: true,
+          },
+        }}
+      >
+        {renderData()}
+      </GoogleMap>
+    </>
   );
 };
 
