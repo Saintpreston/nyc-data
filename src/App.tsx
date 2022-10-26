@@ -1,12 +1,26 @@
-import React from 'react';
-import MapWrapper from './features/map/Map';
-import './App.css';
+import * as React from "react";
+import Map from "./features/map/Map";
+import NavBar from "./features/navigation/NavBar";
+import ThemeProvider from "@mui/material/styles/ThemeProvider";
+import { getDesignTokens, selectMode } from "./features/navigation/themeSlice";
+import { createTheme, CssBaseline } from "@mui/material";
+import { useAppSelector } from "./app/hooks";
+import {selectTab as selectRoute} from "./features/navigation/routeSlice"
 
 function App() {
+  const mode = useAppSelector(selectMode);
+  const theme = createTheme(getDesignTokens(mode));
+  const route = useAppSelector(selectRoute);
+
 
   return (
     <div className="App">
-   <MapWrapper/>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <NavBar />
+        {route === "map" &&  <Map />}
+        {route === "dashboard" &&  <p>Dashboard</p>}
+      </ThemeProvider>
     </div>
   );
 }

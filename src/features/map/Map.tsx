@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
@@ -11,6 +11,7 @@ import {
 } from "../cityData/cityDataSlice";
 import MapDropDown from "./MapDropDown";
 import { selectFilter, selectCenter } from "./mapSlice";
+import { Paper } from "@mui/material";
 
 function MapWrapper() {
   const { isLoaded, loadError } = useLoadScript({
@@ -28,10 +29,10 @@ function MapWrapper() {
   return !isLoaded || status === "loading" ? (
     <div>Loading...</div>
   ) : (
-    <>
+    <Paper  sx={{overflow: 'hidden', width: "80vw", height: '80vh', margin:'auto', mt: 10, borderRadius: 2 }}>
       <MapDropDown />
       <Map />
-    </>
+    </Paper>
   );
 }
 
@@ -124,13 +125,13 @@ const Map = () => {
     setMapRef(map);
     setCurrBounds(JSON.stringify(mapRef?.getBounds()));
   };
-  const [currBounds, setCurrBounds] = useState("init");
+  const [currBounds, setCurrBounds] = useState<undefined | string>();
 
   const handleBoundsChange = () => {
     setCurrBounds(
       JSON.stringify(mapRef?.getBounds())
     ); /* json.stringify is performing some magic here because if i console.log(), it looks completely diff */
-    console.log(mapRef);
+ //   console.log(mapRef);
   };
 
   const nycWidePanBounds = {
@@ -141,27 +142,26 @@ const Map = () => {
   };
 
   return (
-    <>
-      <p>{currBounds}</p>
-      <GoogleMap
-        onBoundsChanged={handleBoundsChange}
-        onLoad={handleOnLoad}
-        zoom={15}
-        center={defaultCenter}
-        mapContainerStyle={{
-          width: "80%",
-          height: "100vh",
-        }}
-        options={{
-          restriction: {
-            latLngBounds: nycWidePanBounds,
-            strictBounds: true,
-          },
-        }}
-      >
-        {renderData()}
-      </GoogleMap>
-    </>
+    /* <p>{currBounds}</p> */
+
+    <GoogleMap
+      onBoundsChanged={handleBoundsChange}
+      onLoad={handleOnLoad}
+      zoom={15}
+      center={defaultCenter}
+      mapContainerStyle={{
+        width: "100%",
+        height: "95%",
+      }}
+      options={{
+        restriction: {
+          latLngBounds: nycWidePanBounds,
+          strictBounds: true,
+        },
+      }}
+    >
+      {renderData()}
+    </GoogleMap>
   );
 };
 
