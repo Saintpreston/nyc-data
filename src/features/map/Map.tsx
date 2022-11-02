@@ -9,9 +9,9 @@ import {
   selectSchools,
   selectShooting,
 } from "../cityData/cityDataSlice";
-import MapDropDown from "./MapDropDown";
-import { selectFilter, selectCenter } from "./mapSlice";
-import { Paper } from "@mui/material";
+import MapDropDown from "./MapFilters";
+import { selectFilter, selectDateFilter, selectCenter } from "./mapSlice";
+import { Paper, CircularProgress, Container, Stack } from "@mui/material";
 
 function MapWrapper() {
   const { isLoaded, loadError } = useLoadScript({
@@ -26,13 +26,33 @@ function MapWrapper() {
       </div>
     );
   }
-  return !isLoaded || status === "loading" ? (
-    <div>Loading...</div>
-  ) : (
-    <Paper  sx={{overflow: 'hidden', width: "80vw", height: '80vh', margin:'auto', mt: 10, borderRadius: 2 }}>
-      <MapDropDown />
-      <Map />
-    </Paper>
+  return (
+    <Container maxWidth="xl">
+      {!isLoaded || status === "loading" ? (
+        <Stack sx={{ width: "100%" }}>
+          <CircularProgress
+            size="5vw"
+            thickness={1.5}
+            sx={{ margin: "auto" }}
+          />
+        </Stack>
+      ) : (
+        <Paper
+          elevation={0}
+          sx={{
+            overflow: "hidden",
+            height: "85vh",
+            borderWidth: 1,
+            borderStyle: "solid",
+            borderColor: "lightgray",
+            borderRadius: 1,
+          }}
+        >
+          <MapDropDown />
+          <Map />
+        </Paper>
+      )}
+    </Container>
   );
 }
 
@@ -43,7 +63,7 @@ const Map = () => {
   const mapFilter = useAppSelector(selectFilter);
   const schools = useAppSelector(selectSchools);
   const shootings = useAppSelector(selectShooting);
-
+  const dateFilter = useAppSelector(selectDateFilter);
   const defaultCenter =
     useAppSelector(
       selectCenter
@@ -59,8 +79,29 @@ const Map = () => {
   const renderData = () => {
     if (status !== "complete") return;
 
+    //api isnt updated daily -> see https://data.cityofnewyork.us/Public-Safety/NYPD-Arrest-Data-Year-to-Date-/uip8-fykc
+
     function renderArrest() {
-      return arrests.map((arr) => {
+      const lastUpdate = new Date("September 1, 2022");
+      const arrestsByDate = arrests.filter((el) => {
+        const arrestDate = new Date(el.arrest_date);
+
+        const diffTime = Math.abs(lastUpdate.getTime() - arrestDate.getTime());
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+        switch (dateFilter) {
+          case "1 month":
+            return diffDays <= 31;
+          case "3 months":
+            return diffDays <= 93;
+          case "6 months":
+            return diffDays <= 190;
+          default:
+            return el !== undefined;
+        }
+      });
+
+      return arrestsByDate.map((arr) => {
         const lat = parseFloat(arr.latitude);
         const lng = parseFloat(arr.longitude);
 
@@ -71,15 +112,21 @@ const Map = () => {
     }
 
     function renderMentalHealth() {
-      const mentalHealthRenderable = mentalHealth.filter((el) =>
-        Object.hasOwn(el, "georeference")
+      const renderable = mentalHealth.filter(
+        (el) => el.georeference !== undefined
       );
-      return mentalHealthRenderable.map((el, i) => {
+      /* 
+      api  included the property even when it's undefined so Object.hasOwn() didnt work  :)
+       */
+
+      const renderMarkers = renderable.map((el, i) => {
         const lng = el.georeference.coordinates[0];
         const lat = el.georeference.coordinates[1];
 
         return <Marker key={i} position={{ lat: lat, lng: lng }} />;
       });
+
+      return renderMarkers;
     }
     function renderSchools() {
       return schools.map((arr) => {
@@ -90,11 +137,32 @@ const Map = () => {
       });
     }
     function renderShootings() {
-      const renderable = shootings.filter((el) =>
-        Object.hasOwn(el, "latitude")
+      const renderable = shootings.filter(
+        (el) => Object.hasOwn(el, "latitude") && Object.hasOwn(el, "longitude")
       );
-      console.log(renderable);
-      return renderable.map((arr, i) => {
+      const lastUpdate = new Date("June 9, 2022");
+
+      const filteredByDate = renderable.filter((el) => {
+        const shootingDate = new Date(el.occur_date);
+
+        const diffTime = Math.abs(
+          lastUpdate.getTime() - shootingDate.getTime()
+        );
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+        switch (dateFilter) {
+          case "1 month":
+            return diffDays <= 31;
+          case "3 months":
+            return diffDays <= 93;
+          case "6 months":
+            return diffDays <= 190;
+          default:
+            return el !== undefined;
+        }
+      });
+
+      const renderMarkers = filteredByDate.map((arr, i) => {
         const lat = parseFloat(arr.latitude!);
         const lng = parseFloat(arr.longitude!);
 
@@ -105,6 +173,7 @@ const Map = () => {
           />
         );
       });
+      return renderMarkers;
     }
 
     switch (mapFilter) {
@@ -116,8 +185,10 @@ const Map = () => {
         return renderShootings();
       case "Schools":
         return renderSchools();
+      case "All":
+       return [renderSchools(),renderShootings(),renderMentalHealth(),renderArrest()]
       default:
-        break;
+        break
     }
   };
   const [mapRef, setMapRef] = useState<google.maps.Map | null>(null);
@@ -131,7 +202,7 @@ const Map = () => {
     setCurrBounds(
       JSON.stringify(mapRef?.getBounds())
     ); /* json.stringify is performing some magic here because if i console.log(), it looks completely diff */
- //   console.log(mapRef);
+    //   console.log(mapRef);
   };
 
   const nycWidePanBounds = {
@@ -154,6 +225,7 @@ const Map = () => {
         height: "95%",
       }}
       options={{
+        disableDefaultUI: true,
         restriction: {
           latLngBounds: nycWidePanBounds,
           strictBounds: true,

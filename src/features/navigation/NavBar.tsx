@@ -11,7 +11,6 @@ import {
   Tab,
   Tabs,
 } from "@mui/material";
-import { LightMode, DarkMode } from "@mui/icons-material";
 import { useTheme } from "@emotion/react";
 import { changeTheme, selectMode } from "./themeSlice";
 import { changeRoute, selectTab } from "./routeSlice";
@@ -41,8 +40,8 @@ const NavBar = () => {
   };
   const handleViewChange = (e: React.SyntheticEvent, val: string) => {
     /* render route or map component */
-   
-    dispatch(changeRoute(val))
+
+    dispatch(changeRoute(val));
   };
 
   function a11yProps(index: number) {
@@ -53,32 +52,31 @@ const NavBar = () => {
   }
 
   return (
-    <AppBar >
-      
-      <Toolbar variant='dense' >
+    <AppBar>
+      <Toolbar variant="dense">
         <Container maxWidth="xl">
-          <Grid container justifyContent="space-between" alignItems='center'>
+          <Grid container justifyContent="space-between" alignItems="center">
             <Grid item>
               <Tabs
-             
                 value={tab}
                 onChange={handleViewChange}
                 aria-label="control view"
               >
-                <Tab value="dashboard"  label="Dashboard" {...a11yProps(0)} />
-                <Tab value="map"  label="Map" {...a11yProps(1)} />
+                <Tab value="dashboard" label="Dashboard" {...a11yProps(0)} />
+                <Tab value="map" label="Map" {...a11yProps(1)} />
               </Tabs>
             </Grid>
             <Grid item>
               <Select
+                size="small"
                 value={mode}
                 label="Theme"
-                variant="standard"
+                variant="outlined"
                 name="map-data-options"
                 id="map-data-options"
                 onChange={handleThemeChange}
               >
-                <MenuItem value="light">Light</MenuItem>
+                <MenuItem value="light"> Light</MenuItem>
                 <MenuItem value="dark">Dark</MenuItem>
                 <MenuItem value="os default">OS Default</MenuItem>
               </Select>

@@ -3,16 +3,18 @@ import { createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import { getAllData } from "./fetchData";
 
- interface School {
+export interface School {
   latitude: string;
   longitude: string;
   dbn: string;
+  school_name: string;
   
 }
 
-interface Arrest {
+export interface Arrest {
   latitude: string;
   longitude: string;
+  arrest_date: string;
   arrest_key: string;
   geocoded_column: {
     coordinaates: number[];
@@ -22,15 +24,24 @@ interface Arrest {
   pd_desc: string;
 }
 
-interface MentalHealthFacility {
+export interface MentalHealthFacility {
   georeference: {
     coordinates: number[];
   };
   facility_name: string;
   populations_served: string;
+};
+
+export interface Shooting {
+  latitude?: string;
+  longitude?: string;
+  boro: string;
+  occur_date: string;
+  occur_time: string;
+  incident_key: string;
 }
 
-interface Shooting {
+export interface Budget {
   latitude?: string;
   longitude?: string;
   boro: string;
@@ -47,6 +58,7 @@ export interface CityDataAPI {
   arrests: [] | Arrest[];
   mentalHealth: [] | MentalHealthFacility[];
   schools: [] | School[];
+  budget: {} | Budget
 }
 interface CityDataState extends CityDataAPI {
   status: "idle" | "loading" | "failed" | "complete";
@@ -59,6 +71,7 @@ const initialState: CityDataState = {
   shootings: [],
   arrests: [],
   schools: [],
+  budget: {},
   mentalHealth: [],
   error: "",
 
@@ -80,11 +93,12 @@ export const cityDataSlice = createSlice({
       })
       .addCase(fetchData.fulfilled, (state, action ) => {
         state.status = "complete";
-        const {arrests, mentalHealth, schools, shootings} = action.payload;
+        const {arrests, mentalHealth, schools, shootings, budget} = action.payload;
         state.arrests = arrests;
         state.mentalHealth = mentalHealth;
         state.schools = schools;
         state.shootings = shootings;
+        state.budget = budget;
       })
       .addCase(fetchData.rejected, (state, action) => {
         state.status = "failed";
@@ -99,6 +113,7 @@ export const selectMentalHealth = (state: RootState) =>
   state.cityData.mentalHealth;
 
 export const selectArrests = (state: RootState) => state.cityData.arrests;
+export const selectBudget = (state: RootState) => state.cityData.budget;
 export const selectSchools = (state: RootState) => state.cityData.schools;
 export const selectShooting = (state: RootState) => state.cityData.shootings;
 export default cityDataSlice.reducer;

@@ -1,5 +1,5 @@
 import { teal } from "@mui/material/colors";
-import { PaletteMode, PaletteOptions, Components, Theme } from "@mui/material";
+import { PaletteMode, PaletteOptions, } from "@mui/material";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 
@@ -29,7 +29,7 @@ const lightPalette: PaletteOptions = {
   },
 };
 
-export const getDesignTokens = (mode: PaletteMode) : Theme => ({
+export const getDesignTokens = (mode: PaletteMode)  => ({
   palette: {
     mode,
     ...(mode === "dark" ? darkPalette : lightPalette),
@@ -92,6 +92,29 @@ export const getDesignTokens = (mode: PaletteMode) : Theme => ({
         root: {},
       },
     },
+    MuiTableCell : {
+      styleOverrides: {
+        root: {
+          border: 'none',
+          borderTop: 'solid 1px gainsboro'
+       
+        },
+      },
+    },
+    MuiTableBody:{
+      styleOverrides: {
+        root: {
+        
+        }
+      }
+    },
+    MuiTableRow:{
+      styleOverrides: {
+        root: {
+          border: 'none',
+        }
+      }
+    }
   },
 });
 
