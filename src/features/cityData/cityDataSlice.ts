@@ -58,22 +58,46 @@ export interface CityDataAPI {
   arrests: [] | Arrest[];
   mentalHealth: [] | MentalHealthFacility[];
   schools: [] | School[];
-  budget: {} | Budget
+  budget: {} | Budget;
+  totalPopulation?: number;
+  demographicsAsPercent?: {
+    asian: number;
+    black: number;
+    white: number;
+    twoOrMore:number;
+    other: number;
+    nativeAmerican: number;
+  }
 }
 interface CityDataState extends CityDataAPI {
-  status: "idle" | "loading" | "failed" | "complete";
+  mapStatus: "idle" | "loading" | "failed" | "complete";
   error: string;
 }
+/* White: 41.33%
+Black or African American: 23.82%
+Other race: 14.43%
+Asian: 14.29%
+Two or more races: 5.63%
+Native American: 0.44% */
 
 
 const initialState: CityDataState = {
-  status: "idle",
+  mapStatus: "idle",
   shootings: [],
   arrests: [],
   schools: [],
   budget: {},
   mentalHealth: [],
   error: "",
+  totalPopulation: 8_500_000,
+  demographicsAsPercent : {
+    asian: 15,
+    black: 23,
+    twoOrMore: 6,
+    nativeAmerican: 0.5,
+    other: 12,
+    white: 41
+  }
 
 };
 
@@ -89,10 +113,10 @@ export const cityDataSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchData.pending, (state) => {
-        state.status = "loading";
+        state.mapStatus = "loading";
       })
       .addCase(fetchData.fulfilled, (state, action ) => {
-        state.status = "complete";
+        state.mapStatus = "complete";
         const {arrests, mentalHealth, schools, shootings, budget} = action.payload;
         state.arrests = arrests;
         state.mentalHealth = mentalHealth;
@@ -101,17 +125,16 @@ export const cityDataSlice = createSlice({
         state.budget = budget;
       })
       .addCase(fetchData.rejected, (state, action) => {
-        state.status = "failed";
+        state.mapStatus = "failed";
       });
   },
 });
 
 
-
-export const selectStatus = (state: RootState) => state.cityData.status;
-export const selectMentalHealth = (state: RootState) =>
-  state.cityData.mentalHealth;
-
+export const selectDemographics = (state: RootState) => state.cityData.demographicsAsPercent
+export const selectStatus = (state: RootState) => state.cityData.mapStatus;
+export const selectMentalHealth = (state: RootState) => state.cityData.mentalHealth;
+export const selectTotalPopulation = (state: RootState) => state.cityData.totalPopulation
 export const selectArrests = (state: RootState) => state.cityData.arrests;
 export const selectBudget = (state: RootState) => state.cityData.budget;
 export const selectSchools = (state: RootState) => state.cityData.schools;

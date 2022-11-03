@@ -62,8 +62,8 @@ const NavBar = () => {
                 onChange={handleViewChange}
                 aria-label="control view"
               >
-                <Tab value="dashboard" label="Dashboard" {...a11yProps(0)} />
                 <Tab value="map" label="Map" {...a11yProps(1)} />
+                <Tab value="dashboard" label="Dashboard" {...a11yProps(0)} />
               </Tabs>
             </Grid>
             <Grid item>

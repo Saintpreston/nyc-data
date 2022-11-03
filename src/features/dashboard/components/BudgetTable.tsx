@@ -16,7 +16,7 @@ import LastPageIcon from '@mui/icons-material/LastPage';
 import { Typography } from '@mui/material';
 import {selectBudget } from "../../cityData/cityDataSlice"
 import { useAppSelector } from '../../../app/hooks';
-
+import Grid from "@mui/material/Grid"
 
 interface TablePaginationActionsProps {
   count: number;
@@ -112,11 +112,11 @@ function createData(name: string, calories: number, fat: number) {
   const [rowsPerPage, setRowsPerPage] = React.useState(8);
 
 
-  const budetRows = useAppSelector(selectBudget)
+  const budgetRows = useAppSelector(selectBudget);
 
 const rows = []
   
-for (const [dept, amt] of Object.entries(budetRows)) {
+for (const [dept, amt] of Object.entries(budgetRows)) {
  console.log(`${dept}: ${amt}`);
  rows.push({name: dept, calories: amt})
 }
@@ -141,7 +141,7 @@ for (const [dept, amt] of Object.entries(budetRows)) {
   };
 
   return (
-   <>
+   <Grid item md={4}>
  
     <TableContainer 
     component={Card}
@@ -191,7 +191,7 @@ for (const [dept, amt] of Object.entries(budetRows)) {
         </TableFooter>
       </Table>
     </TableContainer>
-    </>
+    </Grid>
   );
 }
 

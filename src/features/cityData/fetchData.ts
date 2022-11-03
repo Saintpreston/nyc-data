@@ -162,7 +162,6 @@ async function getBudgetData() {
         result[department] += budget;
       }
     }
-    console.log(result);
     return result;
   } catch (err) {
     console.log(err);
@@ -173,11 +172,13 @@ async function getBudgetData() {
 
 
 export async function getAllData(): Promise<CityDataAPI> {
+  console.time('fetch')
   const arrestData = await getArrestsData();
   const mentalHealthData = await getMentalHealthData();
   const schoolData = await getSchoolData();
   const shootingsData = await getShootingsData();
   const budgetData = await getBudgetData();
+  console.timeEnd('fetch')
   return {
     arrests: arrestData,
     mentalHealth: mentalHealthData,
