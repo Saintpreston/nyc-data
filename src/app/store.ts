@@ -1,5 +1,4 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import counterReducer from '../features/counter/counterSlice';
 import cityDataReducer from '../features/cityData/cityDataSlice';
 import mapReducer from '../features/map/mapSlice';
 import themeReducer from "../features/navigation/themeSlice"
@@ -7,7 +6,6 @@ import routeReducer from "../features/navigation/routeSlice"
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
     cityData: cityDataReducer,
     map: mapReducer,
     theme: themeReducer,
