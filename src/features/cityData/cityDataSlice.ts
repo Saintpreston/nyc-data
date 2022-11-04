@@ -138,5 +138,5 @@ export const selectTotalPopulation = (state: RootState) => state.cityData.totalP
 export const selectArrests = (state: RootState) => state.cityData.arrests;
 export const selectBudget = (state: RootState) => state.cityData.budget;
 export const selectSchools = (state: RootState) => state.cityData.schools;
-export const selectShooting = (state: RootState) => state.cityData.shootings;
+export const selectShootings = (state: RootState) => state.cityData.shootings;
 export default cityDataSlice.reducer;

@@ -3,13 +3,13 @@ import {
   Card,
   Grid,
   Typography,
+  Stack
 } from "@mui/material";
 import PopulationCard from "./components/PopulationCard";
 import TotalPopulationDoughnut from "./components/TotalPopulationDoughnut";
 import { formatNumberByPercent } from "../../app/helpers";
 import { selectTotalPopulation, selectDemographics } from "../cityData/cityDataSlice";
 import { useAppSelector } from "../../app/hooks";
-
 
 
 
@@ -66,7 +66,7 @@ function PopulationCards(){
 
 export default function Population() {
 
-
+const totalPopulation = useAppSelector(selectTotalPopulation)
 
 
   return (
@@ -79,7 +79,10 @@ export default function Population() {
           sx={{ minHeight: "100%", border: "solid 1px gainsboro", display:'flex', alignItems:'center', justifyContent: 'space-between' }}
           elevation={0}
         >
+          <Stack>
           <Typography variant="h6" paddingLeft={2}>Total Population</Typography>
+          <Typography variant="subtitle1" paddingLeft={2}>{formatNumberByPercent(totalPopulation!,100)}</Typography>
+          </Stack>
             <TotalPopulationDoughnut/>
         </Card>
       </Grid>

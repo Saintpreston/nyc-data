@@ -7,7 +7,7 @@ import {
   selectMentalHealth,
   selectStatus,
   selectSchools,
-  selectShooting,
+  selectShootings,
 } from "../cityData/cityDataSlice";
 import MapDropDown from "./MapFilters";
 import { selectFilter, selectDateFilter, selectCenter } from "./mapSlice";
@@ -62,7 +62,7 @@ const Map = () => {
   const status = useAppSelector(selectStatus);
   const mapFilter = useAppSelector(selectFilter);
   const schools = useAppSelector(selectSchools);
-  const shootings = useAppSelector(selectShooting);
+  const shootings = useAppSelector(selectShootings);
   const dateFilter = useAppSelector(selectDateFilter);
   const defaultCenter =
     useAppSelector(
