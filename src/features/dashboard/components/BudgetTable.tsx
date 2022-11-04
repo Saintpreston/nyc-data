@@ -88,8 +88,8 @@ function TablePaginationActions(props: TablePaginationActionsProps) {
 
  function BudgetTable() {
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(8);
-
+ 
+  const rowsPerPage = 8;
 
   const budgetRows = useAppSelector(selectBudget);
 
@@ -112,12 +112,7 @@ for (const [dept, amt] of Object.entries(budgetRows)) {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
+
 
   return (
    <Grid item md={4}>

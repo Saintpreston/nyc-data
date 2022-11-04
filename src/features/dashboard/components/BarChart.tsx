@@ -1,7 +1,6 @@
 import React from 'react'
 import {Grid, Card} from "@mui/material"
 import { Bar, } from 'react-chartjs-2'
-import Box from "@mui/material/Box"
 import { selectArrests,selectMentalHealth,selectSchools, selectShootings } from '../../cityData/cityDataSlice'
 import {Chart, CategoryScale, LinearScale, BarElement} from 'chart.js'
 import { useAppSelector } from '../../../app/hooks'

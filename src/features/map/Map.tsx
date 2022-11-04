@@ -199,6 +199,7 @@ const Map = () => {
   const [currBounds, setCurrBounds] = useState<undefined | string>();
 
   const handleBoundsChange = () => {
+    
     setCurrBounds(
       JSON.stringify(mapRef?.getBounds())
     ); /* json.stringify is performing some magic here because if i console.log(), it looks completely diff */
