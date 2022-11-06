@@ -2,6 +2,8 @@
 
 ##### Ongoing project Made for my Core Lab Systems Project:  City as a System && My Midterm/Final for my Web Advanced: JavaScript API's class
 
+[Hosted here](https://nyc-data-portrait.netlify.app/)
+
 We spent alot of time discussing how one small negligence from a key political figure can have a ripple effect that lasts for generations. This lead me to see if I can explore this theme using a Web App.
 
 This map that visualizes arrest data, mental health facilities and high-schools in NYC. To examine, pick apart and test my personal belief, and the belief of many that lack of government investments in certain neighborhoods leads to unfavorable behavior from those that inhabit these neighborhoods. 
