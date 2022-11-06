@@ -1,14 +1,10 @@
 import React, { Dispatch, SetStateAction } from "react";
-import { Container, Button, Typography, Box } from "@mui/material";
+import { Container, Button, Typography, } from "@mui/material";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
  fetchData,
- selectArrests,
- selectMentalHealth,
  selectStatus,
- selectSchools,
- selectShootings,
 } from "../cityData/cityDataSlice";
 
 
