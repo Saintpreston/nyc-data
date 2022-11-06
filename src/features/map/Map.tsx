@@ -13,6 +13,7 @@ import MapDropDown from "./MapFilters";
 import { selectFilter, selectDateFilter, selectCenter } from "./mapSlice";
 import { Paper, CircularProgress, Container, Stack } from "@mui/material";
 
+
 function MapWrapper() {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_KEY!,
@@ -26,6 +27,9 @@ function MapWrapper() {
       </div>
     );
   }
+
+
+
   return (
     <Container maxWidth="xl">
       {!isLoaded || status === "loading" ? (
