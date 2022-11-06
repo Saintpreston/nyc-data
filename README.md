@@ -1,6 +1,6 @@
-# NYC Crime Map - WIP
+# NYC Crime Map
 
-##### Made for my Core Lab Systems Project:  City as a System && My Midterm/Final for my Web Advanced: JavaScript API's class
+##### Ongoing project Made for my Core Lab Systems Project:  City as a System && My Midterm/Final for my Web Advanced: JavaScript API's class
 
 We spent alot of time discussing how one small negligence from a key political figure can have a ripple effect that lasts for generations. This lead me to see if I can explore this theme using a Web App.
 
