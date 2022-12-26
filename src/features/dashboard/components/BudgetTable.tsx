@@ -123,7 +123,7 @@ for (const [dept, amt] of Object.entries(budgetRows)) {
     sx={{  border: "solid 1px gainsboro" }}
     >
     <Typography padding={2} variant='h6'>Budget</Typography>
-      <Table  aria-label="custom pagination table" >
+      <Table  aria-label="New York City Budget Breakdown" >
         <TableBody>
           {(rowsPerPage > 0
             ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -133,7 +133,7 @@ for (const [dept, amt] of Object.entries(budgetRows)) {
               <TableCell component="th" scope="row">
                 {capitalizeFirstLetter(row.dept)}
               </TableCell>
-              <TableCell  sx={{fontWeight: 900}} align="right">
+              <TableCell  sx={{fontWeight: 700}} align="right">
              {formatNumberByPercent(row.amt!,100)}
               </TableCell>
             </TableRow>
