@@ -1,5 +1,5 @@
 import { teal } from "@mui/material/colors";
-import { PaletteMode, PaletteOptions, } from "@mui/material";
+import { PaletteMode, PaletteOptions } from "@mui/material";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 
@@ -29,31 +29,46 @@ const lightPalette: PaletteOptions = {
   },
 };
 
-export const getDesignTokens = (mode: PaletteMode)  => ({
+export const getDesignTokens = (mode: PaletteMode) => ({
   palette: {
     mode,
     ...(mode === "dark" ? darkPalette : lightPalette),
   },
   typography: {
+    h4:{
+      fontWeight: 600,
+    },
     body1: {
       lineHeight: 2,
+      fontWeight: 550,
     },
+    fontFamily: [
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(','),
   },
   components: {
     MuiContainer: {},
     MuiTabs: {
       defaultProps: {
-        
         TabIndicatorProps: {
           sx: {
-            backgroundColor:  mode === "dark" ? "primary" : "white",
+            backgroundColor: mode === "dark" ? "primary" : "white",
           },
         },
       },
     },
     MuiTab: {
       defaultProps: {
-        disableRipple: true
+        disableRipple: true,
       },
       styleOverrides: {
         root: {
@@ -73,9 +88,7 @@ export const getDesignTokens = (mode: PaletteMode)  => ({
       },
     },
     MuiIconButton: {
-      defaultProps: {
-        
-      },
+      defaultProps: {},
       styleOverrides: {
         root: {
           border: "solid",
@@ -83,6 +96,19 @@ export const getDesignTokens = (mode: PaletteMode)  => ({
           borderRadius: "8px",
         },
       },
+    },
+    MuiButton:{
+      defaultProps:{},
+      styleOverrides:{
+        root:{
+        '&:hover':{
+          boxShadow: '0px 4px 20px 0px rgba(143,143,143,1)',
+          backgroundColor: 'transparent',
+          color: teal[500],
+          outline: `solid 2px ${teal[500]}`,
+        }
+        }
+      }
     },
     MuiPaper: {
       defaultProps: {
@@ -92,30 +118,28 @@ export const getDesignTokens = (mode: PaletteMode)  => ({
         root: {},
       },
     },
-    MuiTableCell : {
+    MuiTableCell: {
       styleOverrides: {
         root: {
-          border: 'none',
-          borderTop: 'solid 1px gainsboro'
-       
+          border: "none",
+          borderTop: "solid 1px gainsboro",
         },
       },
     },
-    MuiTableBody:{
+    MuiTableBody: {
       styleOverrides: {
-        root: {
-        
-        }
-      }
+        root: {},
+      },
     },
-    MuiTableRow:{
+    MuiTableRow: {
       styleOverrides: {
         root: {
-          border: 'none',
-        }
-      }
-    }
+          border: "none",
+        },
+      },
+    },
   },
+  
 });
 
 export const themeSlice = createSlice({

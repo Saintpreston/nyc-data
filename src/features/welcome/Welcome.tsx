@@ -31,25 +31,23 @@ const handleClick = () =>{
 
   return (
     <Container maxWidth="md">
-      <Typography gutterBottom variant="h3" component="h1">
-        Hello Visitor💚
+      <Typography gutterBottom variant="h4" >
+        Hello Visitor,
       </Typography>
       <Typography>
         Before you view my work, I want to acknowledge that data is important,
-        it's how we drive unopiniated decisions, but it isn't the full picture
-        nor the whole truth.{" "}
+        it's how we drive unopiniated decisions, but it isn't the full picture nor the human truth.
       </Typography>{" "}
     
       <Typography>
         {" "}
-        Its a neat summary of the truth that leaves out details that were deemed
+        Its a neat summary of truth that leaves out details that were deemed
         uneccessary for the context/purpose.
       </Typography>
      
       <Typography>
-        Data has it's imperfections and can sometimes abstract alot of the
-        humanity out of what we'd see if we were having actual conversations
-        with people.
+        Data abstracts
+        humanity out of the equation.
       </Typography>
    
       <Typography>
