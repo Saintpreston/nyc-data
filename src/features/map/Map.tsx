@@ -11,10 +11,12 @@ import {
 } from "../cityData/cityDataSlice";
 import MapDropDown from "./MapFilters";
 import { selectFilter, selectDateFilter, selectCenter } from "./mapSlice";
-import { Paper, CircularProgress, Container, Stack } from "@mui/material";
+import { Paper, CircularProgress, Container, Stack, useTheme } from "@mui/material";
+
 
 
 function MapWrapper() {
+  const theme = useTheme()
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_KEY!,
   });
@@ -28,7 +30,14 @@ function MapWrapper() {
     );
   }
 
-
+  const containerStyles = {
+    border: `solid 2px ${theme.palette.mode === "dark" ? "" : "gainsboro"}`,
+    borderRadius: 2,
+    boxShadow: '0px 4px 8px 0px rgba(43,43,43,0.2)',
+    overflow: 'hidden',
+    height: '85vh',
+  }
+  
 
   return (
     <Container maxWidth="xl">
@@ -43,14 +52,7 @@ function MapWrapper() {
       ) : (
         <Paper
           elevation={0}
-          sx={{
-            overflow: "hidden",
-            height: "85vh",
-            borderWidth: 1,
-            borderStyle: "solid",
-            borderColor: "lightgray",
-            borderRadius: 1,
-          }}
+          sx={containerStyles}
         >
           <MapDropDown />
           <Map />
