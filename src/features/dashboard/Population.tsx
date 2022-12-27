@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  Card,
   Grid,
   Typography,
   Stack
@@ -18,41 +17,42 @@ function PopulationCards(){
   const totalPopulation = useAppSelector(selectTotalPopulation);
   const demographics = useAppSelector(selectDemographics);
 
+    
 
   return (
     <>
       <Grid item md={4}>
-      <PopulationCard elevation={0} sx={{ border: "solid 1px gainsboro" }}>
+      <PopulationCard  >
         <Typography variant="h6">White</Typography>
         <Typography variant="subtitle1">{formatNumberByPercent(totalPopulation!, demographics!.white)}</Typography>
       </PopulationCard>
     </Grid>
       <Grid item md={4}>
-      <PopulationCard elevation={0} sx={{ border: "solid 1px gainsboro" }}>
+      <PopulationCard  >
       <Typography variant="h6">Asian American</Typography>
         <Typography variant="subtitle1">{formatNumberByPercent(totalPopulation!, demographics!.asian)}</Typography>
       </PopulationCard>
     </Grid>
       <Grid item md={4}>
-      <PopulationCard elevation={0} sx={{ border: "solid 1px gainsboro" }}>
+      <PopulationCard  >
       <Typography variant="h6">Black</Typography>
         <Typography variant="subtitle1">{formatNumberByPercent(totalPopulation!, demographics!.black)}</Typography>
       </PopulationCard>
     </Grid>
       <Grid item md={4}>
-      <PopulationCard elevation={0} sx={{ border: "solid 1px gainsboro" }}>
+      <PopulationCard >
       <Typography variant="h6">Native American</Typography>
         <Typography variant="subtitle1">{formatNumberByPercent(totalPopulation!, demographics!.nativeAmerican)}</Typography>
       </PopulationCard>
     </Grid>
       <Grid item md={4}>
-      <PopulationCard elevation={0} sx={{ border: "solid 1px gainsboro" }}>
+      <PopulationCard  >
       <Typography variant="h6">Two or More</Typography>
         <Typography variant="subtitle1">{formatNumberByPercent(totalPopulation!, demographics!.twoOrMore)}</Typography>
       </PopulationCard>
     </Grid>
       <Grid item md={4}>
-      <PopulationCard elevation={0} sx={{ border: "solid 1px gainsboro" }}>
+      <PopulationCard >
       <Typography variant="h6">Other</Typography>
         <Typography variant="subtitle1">{formatNumberByPercent(totalPopulation!, demographics!.other)}</Typography>
       </PopulationCard>
@@ -75,8 +75,8 @@ const totalPopulation = useAppSelector(selectTotalPopulation)
       <PopulationCards/>
       </Grid>
       <Grid item md={3}>
-        <Card
-          sx={{ minHeight: "100%", border: "solid 1px gainsboro", display:'flex', alignItems:'center', justifyContent: 'space-between' }}
+        <PopulationCard
+          sx={{ minHeight: "100%", display:'flex', alignItems:'center', justifyContent: 'space-between' }}
           elevation={0}
         >
           <Stack>
@@ -84,7 +84,7 @@ const totalPopulation = useAppSelector(selectTotalPopulation)
           <Typography variant="subtitle1" paddingLeft={2}>{formatNumberByPercent(totalPopulation!,100)}</Typography>
           </Stack>
             <TotalPopulationDoughnut/>
-        </Card>
+        </PopulationCard>
       </Grid>
 
     </>
