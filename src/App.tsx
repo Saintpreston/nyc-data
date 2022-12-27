@@ -33,7 +33,7 @@ function App() {
           {route === "dashboard" && <Dashboard />}
         </>
       ) : (
-        <Welcome isOnboarded={isOnboarded}  setIsOnboarded={setIsOnboarded} />
+        <Welcome  setIsOnboarded={setIsOnboarded} />
       )}
       </ThemeProvider>
     </div>
