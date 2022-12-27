@@ -11,17 +11,14 @@ import {
   Tab,
   Tabs,
 } from "@mui/material";
-import { useTheme } from "@emotion/react";
 import { changeTheme, selectMode } from "./themeSlice";
 import { changeRoute, selectTab } from "./routeSlice";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 
 const NavBar = () => {
   const dispatch = useAppDispatch();
-  const theme = useTheme() as any;
-  const isDesktop = useMediaQuery(
-    theme.breakpoints.up("md")
-  ); /* typescript throwing an error that says property breakpoint doesnt exist on theme, which is wrong, refer to MUI docs */
+
+ 
   const isDarkPreferred = useMediaQuery("(prefers-color-scheme: dark)");
   const tab = useAppSelector(selectTab);
   const mode = useAppSelector(selectMode);
@@ -71,7 +68,7 @@ const NavBar = () => {
                 size="small"
                 value={mode}
                 label="Theme"
-                variant="outlined"
+                variant="standard"
                 name="map-data-options"
                 id="map-data-options"
                 onChange={handleThemeChange}
