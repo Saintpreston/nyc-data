@@ -1,10 +1,17 @@
-import * as React from 'react';
-import Card from '@mui/material/Card';
+import Card, {CardProps} from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
 
-const PopulationCard = styled(Card)(({ theme }) => ({
- padding: 12
-}));
+
+const StyledPopulationCard = styled(Card)<CardProps>(({ theme }) => ({
+ padding: 12,
+ border: theme.palette.mode === "dark" ? "" : "solid 1px gainsboro"
+}))  as typeof Card; ;
 
 
-export default PopulationCard
+
+const PopulationCard = ({ ...props}) => {
+
+ return <StyledPopulationCard elevation={0} {...props}></StyledPopulationCard>
+} 
+
+export default PopulationCard 
