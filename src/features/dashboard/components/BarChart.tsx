@@ -4,9 +4,12 @@ import { Bar, } from 'react-chartjs-2'
 import { selectArrests,selectMentalHealth,selectSchools, selectShootings } from '../../cityData/cityDataSlice'
 import {Chart, CategoryScale, LinearScale, BarElement} from 'chart.js'
 import { useAppSelector } from '../../../app/hooks'
+import {useTheme} from '@mui/material'
 Chart.register( [ CategoryScale, LinearScale, BarElement])
 
 function BarChart() {
+
+const mode = useTheme().palette.mode;
 
 const arrests = useAppSelector(selectArrests).length;
 const mentalHealthFacils = useAppSelector(selectMentalHealth).length;
@@ -39,7 +42,7 @@ const shootings = useAppSelector(selectShootings).length;
   return (
    <Grid item md={8}>
        <Card
-          sx={{ minHeight: "100%", border: "solid 1px gainsboro", display:'flex', alignItems:'center', justifyContent: 'space-between' }}
+          sx={{ minHeight: "100%", border: mode === "dark" ? "" : "solid 1px gainsboro", display:'flex', alignItems:'center', justifyContent: 'space-between' }}
           elevation={0}
         >
   <Bar data={data}/>
