@@ -1,21 +1,19 @@
 import React, { Dispatch, SetStateAction } from "react";
-import { Container, Button, Typography, } from "@mui/material";
+import { Container, Button, Typography,Box } from "@mui/material";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
  fetchData,
  selectStatus,
 } from "../cityData/cityDataSlice";
+import {useTheme} from "@mui/material";
 
 
-interface IProps {
- setIsOnboarded: Dispatch<SetStateAction<boolean>>;
- isOnboarded: boolean
-}
-
-const Welcome = ({setIsOnboarded, isOnboarded} : IProps) => {
 
 
+const Welcome = ({setIsOnboarded } : { setIsOnboarded: Dispatch<SetStateAction<boolean>> }) => {
+
+const theme = useTheme();
 const dispatch = useAppDispatch()
 const status = useAppSelector(selectStatus)
 
@@ -29,8 +27,17 @@ const handleClick = () =>{
  setIsOnboarded(true)
 }
 
+
+const containerStyles = {
+  py: 6,
+  border: `solid 1px ${theme.palette.mode === "dark" ? "" : "gainsboro"}`,
+  borderRadius: 2,
+  boxShadow: '0px 4px 8px 0px rgba(43,43,43,0.1)'
+}
+
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="md" sx={containerStyles}>
+      <Box px={4} >
       <Typography gutterBottom variant="h4" >
         Hello Visitor,
       </Typography>
@@ -84,6 +91,7 @@ const handleClick = () =>{
       </Typography>
      <br/>
       <Button sx={{float:'right'}} onClick={handleClick} variant="contained" >Launch Project</Button>
+      </Box>
     </Container>
   );
 };
