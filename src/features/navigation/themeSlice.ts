@@ -102,7 +102,7 @@ export const getDesignTokens = (mode: PaletteMode) => ({
       styleOverrides:{
         root:{
         '&:hover':{
-          boxShadow: '0px 4px 20px 0px rgba(143,143,143,1)',
+          boxShadow: '0px 4px 20px 0px rgba(43,43,43,0.5)',
           backgroundColor: 'transparent',
           color: teal[500],
           outline: `solid 2px ${teal[500]}`,
