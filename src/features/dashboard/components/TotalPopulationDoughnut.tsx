@@ -1,40 +1,64 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Doughnut } from "react-chartjs-2";
+import { Typography } from "@mui/material";
 import Box from "@mui/material/Box";
-import { selectDemographics } from "../../cityData/cityDataSlice";
+import {
+  selectDemographics,
+  selectTotalPopulation,
+} from "../../../features/cityData/cityDataSlice";
 import { Chart, ArcElement, Tooltip } from "chart.js";
+
 import { useAppSelector } from "../../../app/hooks";
 Chart.register([Tooltip, ArcElement]);
 
 function TotalPopulationDoughnut() {
   const demographics = useAppSelector(selectDemographics);
-
-  const doughnutData = Object.keys(demographics!).map((race) => `${race}%`);
+  const totalPopulation = useAppSelector(selectTotalPopulation);
 
   //   const datasets: any = [{data:[]}]
   // popData.forEach(el => {
   //   datasets[0].data.push(el.population)
   // });
+  const genarateDoughnutUtils = useMemo(() => {
+   
+   const labels = [
+      `Asian: ${demographics!.asian}%`,
+      `Black: ${demographics!.black}%`,
+      `White: ${demographics!.white}%`,
+      `Mixed: ${demographics!.twoOrMore}%`,
+      `Other: ${demographics!.other}%`,
+      `Native: ${demographics!.nativeAmerican}%`,
+    ];
 
-  const donutData = {
-    labels: [
-      "Asian %",
-      "Black %",
-      "Two or More %",
-      "Other %",
-      "White %",
-      "Native American %",
-    ],
+  const data =  [
+      totalPopulation! * (demographics!.asian / 100),
+      totalPopulation! * (demographics!.black / 100),
+      totalPopulation! * (demographics!.white / 100),
+      totalPopulation! * (demographics!.twoOrMore / 100),
+      totalPopulation! * (demographics!.other / 100),
+      totalPopulation! * (demographics!.nativeAmerican / 100),
+    ];
+
+    return { labels , data }
+  }, [demographics, totalPopulation]);
+
+  const { labels , data} = genarateDoughnutUtils
+
+  if (
+    typeof demographics === "undefined" ||
+    typeof totalPopulation === "undefined"
+  ) {
+    return <Typography color="red">Error</Typography>;
+  }
+
+
+  const labelArr = labels;
+
+  const doughnutData = {
+    labels: labelArr,
     datasets: [
       {
-        data: [
-          demographics!.asian,
-          demographics!.black,
-          demographics!.twoOrMore,
-          demographics!.other,
-          demographics!.white,
-          demographics!.nativeAmerican,
-        ],
+        data: data,
         backgroundColor: [
           "rgba(255, 99, 132, 0.2)",
           "rgba(54, 162, 235, 0.2)",
@@ -53,14 +77,16 @@ function TotalPopulationDoughnut() {
           "rgba(255, 159, 64, 1)",
         ],
         borderWidth: 0.5,
-      
       },
     ],
   };
 
   return (
     <Box sx={{ width: "45%", marginRight: 2, overflow: "scroll" }}>
-      <Doughnut  aria-label="A Doughnut Chart with New York City's population demographics"  data={donutData} />
+      <Doughnut
+        aria-label={`A Chart with New York City's population demographics showing: ${labels.join(', ')}`}
+        data={doughnutData}
+      />
     </Box>
   );
 }
