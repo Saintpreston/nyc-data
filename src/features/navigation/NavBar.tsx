@@ -11,33 +11,56 @@ import {
   Tab,
   Tabs,
 } from "@mui/material";
-import { changeTheme, selectMode } from "./themeSlice";
+import { changeTheme, InclusivePaletteMode } from "./themeSlice";
 import { changeRoute, selectTab } from "./routeSlice";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { SelectChangeEvent } from "@mui/material";
+import { useState, useEffect } from "react";
 
 const NavBar = () => {
   const dispatch = useAppDispatch();
+  const SYSTEM_THEME = "OS Default";
 
- 
-  const isDarkPreferred = useMediaQuery("(prefers-color-scheme: dark)");
+  const preferredTheme = useMediaQuery("(prefers-color-scheme: dark)")
+    ? "dark"
+    : "light";
   const tab = useAppSelector(selectTab);
-  const mode = useAppSelector(selectMode);
 
-  // const LinkBehavior = React.forwardRef((props, ref) => (
-  //   <RouterLink ref={ref} to="/" {...props} role={undefined} />
-  // ));
+  const [selectedTheme, setSelectedTheme] =
+    useState<InclusivePaletteMode>(SYSTEM_THEME);
 
-  const handleThemeChange = (e: any) => {
+  useEffect(() => {
+    function handleOSThemeChange() {
+      if (selectedTheme === SYSTEM_THEME) {
+        dispatch(changeTheme(preferredTheme === "dark" ? "light" : "dark"));
+      }
+    }
+
+    window
+      .matchMedia("(prefers-color-scheme: dark)")
+      .addEventListener("change", handleOSThemeChange);
+
+    return () =>
+      window
+        .matchMedia("(prefers-color-scheme: dark)")
+        .removeEventListener("change", handleOSThemeChange);
+  }, [dispatch, preferredTheme, selectedTheme]);
+
+  const handleThemeChange = (e: SelectChangeEvent<InclusivePaletteMode>) => {
+    setSelectedTheme(SYSTEM_THEME);
+    dispatch(changeTheme(preferredTheme));
+
     const { value } = e.target;
-    if (value === "os default") {
-      dispatch(changeTheme(isDarkPreferred ? "dark" : "light"));
+    if (value === SYSTEM_THEME) {
+      setSelectedTheme(SYSTEM_THEME);
+      dispatch(changeTheme(preferredTheme));
     } else {
       dispatch(changeTheme(value as PaletteMode));
+      setSelectedTheme(value as InclusivePaletteMode);
     }
   };
-  const handleViewChange = (e: React.SyntheticEvent, val: string) => {
-    /* render route or map component */
 
+  const handleViewChange = (e: React.SyntheticEvent, val: string) => {
     dispatch(changeRoute(val));
   };
 
@@ -59,23 +82,23 @@ const NavBar = () => {
                 onChange={handleViewChange}
                 aria-label="control view"
               >
-                <Tab value="map" label="Map" {...a11yProps(1)} />
-                <Tab value="dashboard" label="Dashboard" {...a11yProps(0)} />
+                <Tab value="map" label="Map" {...a11yProps(0)} />
+                <Tab value="dashboard" label="Dashboard" {...a11yProps(1)} />
               </Tabs>
             </Grid>
             <Grid item>
               <Select
                 size="small"
-                value={mode}
+                value={selectedTheme}
                 label="Theme"
                 variant="standard"
                 name="map-data-options"
                 id="map-data-options"
                 onChange={handleThemeChange}
               >
-                <MenuItem value="light"> Light</MenuItem>
+                <MenuItem value="light">Light</MenuItem>
                 <MenuItem value="dark">Dark</MenuItem>
-                <MenuItem value="os default">OS Default</MenuItem>
+                <MenuItem value={SYSTEM_THEME}>{SYSTEM_THEME}</MenuItem>
               </Select>
             </Grid>
           </Grid>

@@ -30,7 +30,8 @@ const handleClick = () =>{
 
 const containerStyles = {
   py: 6,
-  border: `solid 1px ${theme.palette.mode === "dark" ? "" : "gainsboro"}`,
+  border: `solid 1px ${theme.palette.mode === "dark" ? "none" : "gainsboro"}`,
+  backgroundColor : `${theme.palette.mode === "dark" ? "#1e1f21" : "none"}`,
   borderRadius: 2,
   boxShadow: '0px 4px 8px 0px rgba(43,43,43,0.1)'
 }
@@ -65,13 +66,7 @@ const containerStyles = {
  
       <Typography>There are things worth further analysis such as:</Typography>
       <Typography component="ul">
-        <Typography component="li">
-         The unhoused Population & the city's investments on homeless shelters
-        </Typography>
-        <Typography component="li">
-          Whether or not the city invests more money into schools based on need
-          or the affluency of the neighborhood
-        </Typography>
+
         <Typography component="li">
           Violent to Non-violent crimes and the arrests data for them, as a
           means of answering the question "Is it overpolicing or is this amount
@@ -85,12 +80,17 @@ const containerStyles = {
         <Typography component="li">...and much more worth exploring</Typography>
       </Typography>
       <Typography>
-        This prototype is rough but I see potential, a large part of me
-        wishes to continue working on this and develop the research and UI until it's strong 
-        enough to exist in conjuction with my Senior thesis.
+        This prototype is rough but I see potential, a small part of me
+        wishes to continue working on this and develop it further, another part wants to build new and cooler shit.
+        I'm typically busy with school and my internship so hit me up if you have any ideas for a Pull Request... or just wanna talk
+      </Typography>
+      <br/>
+      <Typography>
+       Warmly, <br/>
+       Preston ✌🏽
       </Typography>
      <br/>
-      <Button sx={{float:'right'}} onClick={handleClick} variant="contained" >Launch Project</Button>
+      <Button sx={{float:'right', fontWeight: 700}} onClick={handleClick} variant="contained" fullWidth>Launch Project</Button>
       </Box>
     </Container>
   );
