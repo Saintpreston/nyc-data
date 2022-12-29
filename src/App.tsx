@@ -9,6 +9,8 @@ import { useAppSelector } from "./app/hooks";
 import { selectTab as selectRoute } from "./features/navigation/routeSlice";
 import Dashboard from "./features/dashboard/Dashboard";
 import Welcome from "./features/welcome/Welcome";
+import { useMediaQuery } from "@mui/material";
+import MobileWelcome from "./features/welcome/MobileWelcome";
 import "./index.css";
 
 function App() {
@@ -17,24 +19,31 @@ function App() {
   const route = useAppSelector(selectRoute);
 
   const [isOnboarded, setIsOnboarded] = useState(false);
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+
+
+
 
   
-
   return (
     <div className="App">
+      <ThemeProvider theme={theme}>
+
      
 
-      <ThemeProvider theme={theme}>
         <CssBaseline />
-        {isOnboarded ? (
-        <>
-          <NavBar />
-          {route === "map" && <Map />}
-          {route === "dashboard" && <Dashboard />}
-        </>
-      ) : (
-        <Welcome  setIsOnboarded={setIsOnboarded} />
-      )}
+        {isOnboarded && !isMobile && (
+          <>
+            <NavBar />
+            {route === "map" && <Map />}
+            {route === "dashboard" && <Dashboard />}
+          </>
+        )}
+
+        {!isOnboarded && !isMobile && (
+          <Welcome setIsOnboarded={setIsOnboarded} />
+        )}
+        {isMobile && <MobileWelcome />}
       </ThemeProvider>
     </div>
   );
