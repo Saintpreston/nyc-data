@@ -31,7 +31,7 @@ function MapWrapper() {
   }
 
   const containerStyles = {
-    border: `solid 2px ${theme.palette.mode === "dark" ? "" : "gainsboro"}`,
+    border: `solid 2px ${theme.palette.mode === "dark" ? "none" : "gainsboro"}`,
     borderRadius: 2,
     boxShadow: '0px 4px 8px 0px rgba(43,43,43,0.2)',
     overflow: 'hidden',
