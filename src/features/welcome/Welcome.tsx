@@ -30,7 +30,8 @@ const handleClick = () =>{
 
 const containerStyles = {
   py: 6,
-  border: `solid 1px ${theme.palette.mode === "dark" ? "" : "gainsboro"}`,
+  border: `solid 1px ${theme.palette.mode === "dark" ? "none" : "gainsboro"}`,
+  backgroundColor : `${theme.palette.mode === "dark" ? "#1e1f21" : "none"}`,
   borderRadius: 2,
   boxShadow: '0px 4px 8px 0px rgba(43,43,43,0.1)'
 }
@@ -85,12 +86,12 @@ const containerStyles = {
         <Typography component="li">...and much more worth exploring</Typography>
       </Typography>
       <Typography>
-        This prototype is rough but I see potential, a large part of me
+        This prototype is rough but I see potential, a small part of me
         wishes to continue working on this and develop the research and UI until it's strong 
         enough to exist in conjuction with my Senior thesis.
       </Typography>
      <br/>
-      <Button sx={{float:'right'}} onClick={handleClick} variant="contained" >Launch Project</Button>
+      <Button sx={{float:'right', fontWeight: 700}} onClick={handleClick} variant="contained" fullWidth>Launch Project</Button>
       </Box>
     </Container>
   );

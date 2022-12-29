@@ -3,11 +3,17 @@ import { PaletteMode, PaletteOptions } from "@mui/material";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 
-export type InclusivePaletteMode = PaletteMode | "os default";
+export type InclusivePaletteMode = PaletteMode | "OS Default";
+
+const isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
+const preferredTheme = isDarkMode ? "dark" : "light";
+
+
 
 const initialState: {
   mode: PaletteMode;
-} = { mode: "light" };
+} = { mode: preferredTheme };
+console.log(initialState);
 
 const darkPalette: PaletteOptions = {
   primary: {
@@ -35,7 +41,7 @@ export const getDesignTokens = (mode: PaletteMode) => ({
     ...(mode === "dark" ? darkPalette : lightPalette),
   },
   typography: {
-    h4:{
+    h4: {
       fontWeight: 600,
     },
     body1: {
@@ -43,17 +49,17 @@ export const getDesignTokens = (mode: PaletteMode) => ({
       fontWeight: 550,
     },
     fontFamily: [
-      '-apple-system',
-      'BlinkMacSystemFont',
+      "-apple-system",
+      "BlinkMacSystemFont",
       '"Segoe UI"',
-      'Roboto',
+      "Roboto",
       '"Helvetica Neue"',
-      'Arial',
-      'sans-serif',
+      "Arial",
+      "sans-serif",
       '"Apple Color Emoji"',
       '"Segoe UI Emoji"',
       '"Segoe UI Symbol"',
-    ].join(','),
+    ].join(","),
   },
   components: {
     MuiContainer: {},
@@ -97,18 +103,19 @@ export const getDesignTokens = (mode: PaletteMode) => ({
         },
       },
     },
-    MuiButton:{
-      defaultProps:{},
-      styleOverrides:{
-        root:{
-        '&:hover':{
-          boxShadow: '0px 4px 20px 0px rgba(43,43,43,0.5)',
-          backgroundColor: 'transparent',
-          color: teal[500],
-          outline: `solid 2px ${teal[500]}`,
-        }
-        }
-      }
+    MuiButton: {
+      defaultProps: {},
+      styleOverrides: {
+        root: {
+          textTransform: "none" as const,
+          "&:hover": {
+            boxShadow: "0px 4px 20px 0px rgba(43,43,43,0.5)",
+            backgroundColor: "transparent",
+            color: teal[500],
+            outline: `solid 2px ${teal[500]}`,
+          },
+        },
+      },
     },
     MuiPaper: {
       defaultProps: {
@@ -139,7 +146,6 @@ export const getDesignTokens = (mode: PaletteMode) => ({
       },
     },
   },
-  
 });
 
 export const themeSlice = createSlice({
