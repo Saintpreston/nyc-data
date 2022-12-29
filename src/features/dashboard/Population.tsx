@@ -21,7 +21,7 @@ function PopulationCards(){
 
   return (
     <>
-      <Grid item md={4}>
+      <Grid item md={4} >
       <PopulationCard  >
         <Typography variant="h6">White</Typography>
         <Typography variant="subtitle1">{formatNumberByPercent(totalPopulation!, demographics!.white)}</Typography>

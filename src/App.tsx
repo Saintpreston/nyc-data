@@ -11,6 +11,7 @@ import Dashboard from "./features/dashboard/Dashboard";
 import Welcome from "./features/welcome/Welcome";
 import { useMediaQuery } from "@mui/material";
 import MobileWelcome from "./features/welcome/MobileWelcome";
+import Footer from "./features/navigation/Footer";
 import "./index.css";
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
 
   
   return (
+    <>
     <div className="App">
       <ThemeProvider theme={theme}>
 
@@ -37,6 +39,7 @@ function App() {
             <NavBar />
             {route === "map" && <Map />}
             {route === "dashboard" && <Dashboard />}
+            <Footer />
           </>
         )}
 
@@ -46,6 +49,7 @@ function App() {
         {isMobile && <MobileWelcome />}
       </ThemeProvider>
     </div>
+    </>
   );
 }
 

@@ -10,10 +10,12 @@ body,
 }
 
 .App {
+ 
   display: flex;
   position: relative;
   align-items: center;
   justify-content: center;
   -webkit-align-items: center;
+  flex-direction: column;
 }
 

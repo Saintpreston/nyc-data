@@ -60,6 +60,3 @@ function MobileWelcome() {
 
 export default MobileWelcome;
 
-function setIsOnboarded(arg0: boolean) {
-  throw new Error("Function not implemented.");
-}

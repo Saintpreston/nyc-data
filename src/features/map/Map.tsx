@@ -42,7 +42,7 @@ function MapWrapper() {
   return (
     <Container maxWidth="xl">
       {!isLoaded || status === "loading" ? (
-        <Stack sx={{ width: "100%" }}>
+        <Stack sx={{ width: "100%"}}>
           <CircularProgress
             size="5vw"
             thickness={1.5}

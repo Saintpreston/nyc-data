@@ -1,0 +1,19 @@
+
+
+
+.svg {
+ fill: white;
+ mix-blend-mode: difference;
+}
+
+/* 
+@media (prefers-color-scheme: dark) {
+ .svg {
+  fill: white;
+  }
+}
+@media (prefers-color-scheme: light) {
+ .svg {
+  fill: w;
+  }
+} */

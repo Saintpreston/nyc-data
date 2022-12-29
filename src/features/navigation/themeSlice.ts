@@ -97,9 +97,9 @@ export const getDesignTokens = (mode: PaletteMode) => ({
       defaultProps: {},
       styleOverrides: {
         root: {
-          border: "solid",
-          borderWidth: "2px",
-          borderRadius: "8px",
+          border: "none",
+          borderWidth: "1px",
+          borderRadius: "50%",
         },
       },
     },
