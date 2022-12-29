@@ -124,7 +124,8 @@ function BudgetTable() {
       <TableContainer
         component={Card}
         elevation={0}
-        sx={{ border: mode === "dark" ? "" : "solid 1px gainsboro" }}
+        sx={{ border: mode === "dark" ? "" : "solid 1px gainsboro",
+        boxShadow: '0px 4px 8px 0px rgba(43,43,43,0.2)', }}
       >
         <Typography padding={2} variant="h6">
           Budget

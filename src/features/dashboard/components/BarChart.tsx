@@ -40,9 +40,9 @@ const shootings = useAppSelector(selectShootings).length;
 
 
   return (
-   <Grid item md={8}>
+   <Grid item md={8} >
        <Card
-          sx={{ minHeight: "100%", border: mode === "dark" ? "" : "solid 1px gainsboro", display:'flex', alignItems:'center', justifyContent: 'space-between' }}
+          sx={{ minHeight: "100%", border: mode === "dark" ? "" : "solid 1px gainsboro", display:'flex', alignItems:'center', justifyContent: 'space-between', boxShadow: '0px 4px 8px 0px rgba(43,43,43,0.2)', }}
           elevation={0}
         >
   <Bar data={data}/>

@@ -11,7 +11,7 @@ export default function Dashboard() {
   return (
     <Container maxWidth="xl">
       {status === "complete" ? (
-        <Grid container spacing={1}>
+        <Grid container spacing={2} rowGap={2}>
           <Population />
           <BarChart />
           <BudgetTable />
