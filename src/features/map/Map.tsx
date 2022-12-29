@@ -11,7 +11,7 @@ import {
 } from "../cityData/cityDataSlice";
 import MapDropDown from "./MapFilters";
 import { selectFilter, selectDateFilter, selectCenter } from "./mapSlice";
-import { Paper, CircularProgress, Container, Stack, useTheme } from "@mui/material";
+import { Paper, CircularProgress, Container, Stack, useTheme, Typography } from "@mui/material";
 
 
 
@@ -42,12 +42,13 @@ function MapWrapper() {
   return (
     <Container maxWidth="xl">
       {!isLoaded || status === "loading" ? (
-        <Stack sx={{ width: "100%"}}>
+        <Stack sx={{ width: "100%"}} direction="column">
           <CircularProgress
             size="5vw"
             thickness={1.5}
-            sx={{ margin: "auto" }}
+            sx={{ margin: "auto", my: 4 }}
           />
+          <Typography  textAlign={'center'} >Working on the loading, sorry!😅</Typography>
         </Stack>
       ) : (
         <Paper
