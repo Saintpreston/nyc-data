@@ -15,7 +15,7 @@ import { changeTheme, InclusivePaletteMode } from "./themeSlice";
 import { changeRoute, selectTab } from "./routeSlice";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { SelectChangeEvent } from "@mui/material";
-import { useState, useEffect } from "react";
+import { useState, useLayoutEffect } from "react";
 
 const NavBar = () => {
   const dispatch = useAppDispatch();
@@ -29,7 +29,7 @@ const NavBar = () => {
   const [selectedTheme, setSelectedTheme] =
     useState<InclusivePaletteMode>(SYSTEM_THEME);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     function handleOSThemeChange() {
       if (selectedTheme === SYSTEM_THEME) {
         dispatch(changeTheme(preferredTheme === "dark" ? "light" : "dark"));
