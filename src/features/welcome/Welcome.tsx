@@ -66,13 +66,7 @@ const containerStyles = {
  
       <Typography>There are things worth further analysis such as:</Typography>
       <Typography component="ul">
-        <Typography component="li">
-         The unhoused Population & the city's investments on homeless shelters
-        </Typography>
-        <Typography component="li">
-          Whether or not the city invests more money into schools based on need
-          or the affluency of the neighborhood
-        </Typography>
+
         <Typography component="li">
           Violent to Non-violent crimes and the arrests data for them, as a
           means of answering the question "Is it overpolicing or is this amount
@@ -87,8 +81,13 @@ const containerStyles = {
       </Typography>
       <Typography>
         This prototype is rough but I see potential, a small part of me
-        wishes to continue working on this and develop the research and UI until it's strong 
-        enough to exist in conjuction with my Senior thesis.
+        wishes to continue working on this and develop it further, another part wants to build new and cooler shit.
+        I'm typically busy with school and my internship so hit me up if you have any ideas for a Pull Request... or just wanna talk
+      </Typography>
+      <br/>
+      <Typography>
+       Warmly, <br/>
+       Preston ✌🏽
       </Typography>
      <br/>
       <Button sx={{float:'right', fontWeight: 700}} onClick={handleClick} variant="contained" fullWidth>Launch Project</Button>
