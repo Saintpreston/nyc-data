@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
+import {
+  GoogleMap,
+  Marker,
+  useLoadScript,
+} from "@react-google-maps/api";
+
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
   fetchData,
@@ -11,12 +16,18 @@ import {
 } from "../cityData/cityDataSlice";
 import MapDropDown from "./MapFilters";
 import { selectFilter, selectDateFilter, selectCenter } from "./mapSlice";
-import { Paper, CircularProgress, Container, Stack, useTheme, Typography } from "@mui/material";
-
-
+import {
+  Paper,
+  CircularProgress,
+  Container,
+  Stack,
+  useTheme,
+  Typography,
+} from "@mui/material";
+import ArrestMarker from "./components/ArrestMarker";
 
 function MapWrapper() {
-  const theme = useTheme()
+  const theme = useTheme();
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_KEY!,
   });
@@ -33,28 +44,26 @@ function MapWrapper() {
   const containerStyles = {
     border: `solid 2px ${theme.palette.mode === "dark" ? "none" : "gainsboro"}`,
     borderRadius: 2,
-    boxShadow: '0px 4px 8px 0px rgba(43,43,43,0.2)',
-    overflow: 'hidden',
-    height: '85vh',
-  }
-  
+    boxShadow: "0px 4px 8px 0px rgba(43,43,43,0.2)",
+    overflow: "hidden",
+    height: "85vh",
+  };
 
   return (
     <Container maxWidth="xl">
       {!isLoaded || status === "loading" ? (
-        <Stack sx={{ width: "100%"}} direction="column">
+        <Stack sx={{ width: "100%" }} direction="column">
           <CircularProgress
             size="5vw"
             thickness={1.5}
             sx={{ margin: "auto", my: 4 }}
           />
-          <Typography  textAlign={'center'} >Working on the loading, sorry!😅</Typography>
+          <Typography textAlign={"center"}>
+            Working on the loading, sorry!😅
+          </Typography>
         </Stack>
       ) : (
-        <Paper
-          elevation={0}
-          sx={containerStyles}
-        >
+        <Paper elevation={0} sx={containerStyles}>
           <MapDropDown />
           <Map />
         </Paper>
@@ -130,7 +139,15 @@ const Map = () => {
         const lng = el.georeference.coordinates[0];
         const lat = el.georeference.coordinates[1];
 
-        return <Marker key={i} position={{ lat: lat, lng: lng }} />;
+        return (
+          <Marker
+            onClick={() => console.log(lat)}
+            key={i}
+            position={{ lat: lat, lng: lng }}
+          >
+            hello
+          </Marker>
+        );
       });
 
       return renderMarkers;
@@ -193,9 +210,14 @@ const Map = () => {
       case "Schools":
         return renderSchools();
       case "All":
-       return [renderSchools(),renderShootings(),renderMentalHealth(),renderArrest()]
+        return [
+          renderSchools(),
+          renderShootings(),
+          renderMentalHealth(),
+          renderArrest(),
+        ];
       default:
-        break
+        break;
     }
   };
   const [mapRef, setMapRef] = useState<google.maps.Map | null>(null);
@@ -205,13 +227,12 @@ const Map = () => {
   };
   const [currBounds, setCurrBounds] = useState<undefined | string>();
 
-  const handleBoundsChange = () => {
-    
-    setCurrBounds(
-      JSON.stringify(mapRef?.getBounds())
-    ); /* json.stringify is performing some magic here because if i console.log(), it looks completely diff */
-    //   console.log(mapRef);
-  };
+  // const handleBoundsChange = () => {
+  //   setCurrBounds(
+  //     JSON.stringify(mapRef?.getBounds())
+  //   ); /* json.stringify is performing some magic here because if i console.log(), it looks completely diff */
+  //   //   console.log(mapRef);
+  // };
 
   const nycWidePanBounds = {
     south: 40.45026661243767,
@@ -220,11 +241,20 @@ const Map = () => {
     east: -73.38006004295815,
   };
 
-  return (
-    /* <p>{currBounds}</p> */
+  const test = arrests.map((el) => {
 
+     
+
+    return (
+     <ArrestMarker arrest={el} key={el.arrest_key} />
+    );
+  })
+
+ 
+
+  return (
     <GoogleMap
-      onBoundsChanged={handleBoundsChange}
+      // onBoundsChanged={handleBoundsChange}
       onLoad={handleOnLoad}
       zoom={15}
       center={defaultCenter}
@@ -240,7 +270,9 @@ const Map = () => {
         },
       }}
     >
-      {renderData()}
+      
+     {test}
+      
     </GoogleMap>
   );
 };

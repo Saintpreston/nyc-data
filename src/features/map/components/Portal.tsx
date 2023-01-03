@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom'
 
 
 interface IProps {
- children: JSX.Element
+ children: JSX.Element;
+
 }
 
 function Portal(props: IProps) {
