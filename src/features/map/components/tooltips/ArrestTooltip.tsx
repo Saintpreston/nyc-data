@@ -10,7 +10,7 @@ interface IProps {
   isHovered: boolean;
 }
 
-const _ArrestTooltip = React.forwardRef<MutableRefObject<HTMLDivElement>,  IProps>((props, ref) => {
+const ArrestTooltip = React.forwardRef<MutableRefObject<HTMLDivElement>,  IProps>((props, ref) => {
   const { arrest, toolTipPos,  isHovered } = props;
 
   const arrestDate = new Date(arrest.arrest_date);
@@ -22,7 +22,7 @@ const _ArrestTooltip = React.forwardRef<MutableRefObject<HTMLDivElement>,  IProp
   const offense = normalizeString(arrest.ofns_desc);
 
   return (
-    <Tooltip ref={ref} toolTipPos={toolTipPos} isHovered={isHovered}>
+    <Tooltip aria-hidden={!isHovered} ref={ref} toolTipPos={toolTipPos} isHovered={isHovered}>
       <Typography>Arrest</Typography>
       <Typography fontWeight={400} lineHeight={1.2}>
         {renderArrestDate}
@@ -34,6 +34,6 @@ const _ArrestTooltip = React.forwardRef<MutableRefObject<HTMLDivElement>,  IProp
   );
 });
 
-const ArrestTooltip = React.memo(_ArrestTooltip);
+
 
 export { ArrestTooltip };
