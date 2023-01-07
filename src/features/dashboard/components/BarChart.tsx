@@ -41,7 +41,7 @@ const shootings = useAppSelector(selectShootings).length;
    <Grid item md={8}>
 
     
-    {/* change this to a breakdown of what people were arrested for */}
+    {/* TODO: change this to a breakdown of what people were arrested for */}
        {/* <Card
           sx={{ minHeight: "100%", border: mode === "dark" ? "" : "solid 1px gainsboro", display:'flex', alignItems:'center', justifyContent: 'space-between', boxShadow: '0px 4px 8px 0px rgba(43,43,43,0.2)', }}
           elevation={0}
