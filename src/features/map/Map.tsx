@@ -9,9 +9,7 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
   fetchData,
   selectArrests,
-  selectMentalHealth,
   selectStatus,
-  selectSchools,
   selectShootings,
 } from "../cityData/cityDataSlice";
 import MapDropDown from "./MapFilters";
@@ -74,11 +72,9 @@ function MapWrapper() {
 }
 
 const Map = () => {
-  const mentalHealth = useAppSelector(selectMentalHealth);
   const arrests = useAppSelector(selectArrests);
   const status = useAppSelector(selectStatus);
   const mapFilter = useAppSelector(selectFilter);
-  const schools = useAppSelector(selectSchools);
   const shootings = useAppSelector(selectShootings);
   const dateFilter = useAppSelector(selectDateFilter);
   const defaultCenter =
@@ -119,48 +115,13 @@ const Map = () => {
       });
 
       return arrestsByDate.map((arr) => {
-      
         return (
           <ArrestMarker key={arr.arrest_key} arrest={arr}  />
         );
       });
     }
 
-    function renderMentalHealth() {
-       
-      // api  included the property even when it's undefined so Object.hasOwn() won't work  :)
 
-      const renderable = mentalHealth.filter(
-        (el) => el.georeference !== undefined
-      );
-
-  
-
-      const renderMarkers = renderable.map((el, i) => {
-        const lng = el.georeference.coordinates[0];
-        const lat = el.georeference.coordinates[1];
-
-        return (
-          <Marker
-            onClick={() => console.log(lat)}
-            key={i}
-            position={{ lat: lat, lng: lng }}
-          >
-            hello
-          </Marker>
-        );
-      });
-
-      return renderMarkers;
-    }
-    function renderSchools() {
-      return schools.map((arr) => {
-        const lat = parseFloat(arr.latitude);
-        const lng = parseFloat(arr.longitude);
-
-        return <Marker key={arr.dbn} position={{ lat: lat, lng: lng }} />;
-      });
-    }
     function renderShootings() {
       const renderable = shootings.filter(
         (el) => Object.hasOwn(el, "latitude") && Object.hasOwn(el, "longitude")
@@ -204,17 +165,11 @@ const Map = () => {
     switch (mapFilter) {
       case "Arrests":
         return renderArrest();
-      case "Mental Health Facilities":
-        return renderMentalHealth();
       case "Shootings":
         return renderShootings();
-      case "Schools":
-        return renderSchools();
       case "All":
         return [
-          renderSchools(),
           renderShootings(),
-          renderMentalHealth(),
           renderArrest(),
         ];
       default:

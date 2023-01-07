@@ -13,7 +13,7 @@ interface IProps {
 
 
 
-function ArrestMarker({ arrest }: IProps) {
+function _ArrestMarker({ arrest }: IProps) {
   const [isHovered, setIsHovered] = useState<boolean>(false);
   const posRef = useRef({ x: 0, y: 0 });
   const tooltipRef = useRef(null);
@@ -30,7 +30,6 @@ function ArrestMarker({ arrest }: IProps) {
   const getPoint = useCallback( (el: HTMLDivElement, tooltip: HTMLDivElement) => {
     const pt = { x: 0, y: 0 };
     const elRect = el.getBoundingClientRect();
-    console.log(tooltip);
      const {offsetWidth, offsetHeight} = tooltip;
    
     pt.y = elRect.top - offsetHeight - 12;
@@ -77,5 +76,7 @@ function ArrestMarker({ arrest }: IProps) {
     </InfoBox>
   );
 }
+
+const ArrestMarker = React.memo(_ArrestMarker)
 
 export default ArrestMarker;

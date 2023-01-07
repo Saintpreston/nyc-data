@@ -1,7 +1,7 @@
 import React from 'react'
 import {Grid, Card} from "@mui/material"
 import { Bar, } from 'react-chartjs-2'
-import { selectArrests,selectMentalHealth,selectSchools, selectShootings } from '../../cityData/cityDataSlice'
+import { selectArrests, selectShootings } from '../../cityData/cityDataSlice'
 import {Chart, CategoryScale, LinearScale, BarElement} from 'chart.js'
 import { useAppSelector } from '../../../app/hooks'
 import {useTheme} from '@mui/material'
@@ -12,8 +12,6 @@ function BarChart() {
 const mode = useTheme().palette.mode;
 
 const arrests = useAppSelector(selectArrests).length;
-const mentalHealthFacils = useAppSelector(selectMentalHealth).length;
-const schools = useAppSelector(selectSchools).length;
 const shootings = useAppSelector(selectShootings).length;
 
 
@@ -21,7 +19,7 @@ const shootings = useAppSelector(selectShootings).length;
     labels: ['Arrests','Mental Health Facilities','Schools','Shootings'],
     datasets: [{
       label: '',
-      data: [arrests, mentalHealthFacils, schools, shootings,],
+      data: [arrests, shootings,],
       backgroundColor: [
         'rgba(255, 99, 132, 0.2)',
         'rgba(255, 159, 64, 0.2)',
@@ -40,13 +38,16 @@ const shootings = useAppSelector(selectShootings).length;
 
 
   return (
-   <Grid item md={8} >
-       <Card
+   <Grid item md={8}>
+
+    
+    {/* change this to a breakdown of what people were arrested for */}
+       {/* <Card
           sx={{ minHeight: "100%", border: mode === "dark" ? "" : "solid 1px gainsboro", display:'flex', alignItems:'center', justifyContent: 'space-between', boxShadow: '0px 4px 8px 0px rgba(43,43,43,0.2)', }}
           elevation={0}
         >
   <Bar data={data}/>
-  </Card>
+  </Card> */}
     </Grid>
   )
 }

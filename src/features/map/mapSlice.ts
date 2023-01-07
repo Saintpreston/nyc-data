@@ -6,8 +6,6 @@ export type MapFilter =
   | "All"
   | "Shootings"
   | "Arrests"
-  | "Mental Health Facilities"
-  | "Schools";
 
 export type MapDateFilter =
   | "All"
@@ -37,8 +35,6 @@ viewOptions: [
  "All",
  "Shootings",
  "Arrests",
- "Mental Health Facilities",
- "Schools"
 ],
   filter: "All",
   dateFilter: "All",

@@ -2,56 +2,11 @@ import axios from "axios";
 
 import {
   CityDataAPI,
-  School,
   Arrest,
   Shooting,
-  MentalHealthFacility,
 } from "./cityDataSlice";
 
-async function getSchoolData() {
-  const URL_HIGHSCHOLS =
-    "https://data.cityofnewyork.us/resource/23z9-6uk9.json";
 
-  try {
-    const response = await axios.get(URL_HIGHSCHOLS);
-    const data: School[] = await response.data;
-    const result: School[] = [];
-
-    for (let index = 0; index < data.length; index++) {
-      const curr = data[index];
-      const { latitude, longitude, dbn, school_name } = curr;
-      result.push({ latitude, longitude, dbn, school_name });
-    }
-
-    return result;
-  } catch (err) {
-    console.log(err);
-    return [];
-  }
-}
-
-
-
-
-async function getMentalHealthData() {
-  const URL = "https://data.ny.gov/resource/6nvr-tbv8.json";
-  try {
-    const response = await axios.get(URL);
-    const data: Array<MentalHealthFacility> = await response.data;
-    const result:Array<MentalHealthFacility> = []
-
-    for (let index = 0; index < data.length; index++) {
-      const curr = data[index];
-      const {georeference, facility_name, populations_served} = curr;
-      result.push({georeference, facility_name, populations_served})
-    }
-
-    return result;
-  } catch (err) {
-    console.log(err);
-    return [];
-  }
-}
 
 async function getArrestsData() {
   const URL = "https://data.cityofnewyork.us/resource/uip8-fykc.json";
@@ -180,15 +135,11 @@ async function getBudgetData() {
 export async function getAllData(): Promise<CityDataAPI> {
   
   const arrestData = await getArrestsData();
-  const mentalHealthData = await getMentalHealthData();
-  const schoolData = await getSchoolData();
   const shootingsData = await getShootingsData();
   const budgetData = await getBudgetData();
 
   return {
     arrests: arrestData,
-    mentalHealth: mentalHealthData,
-    schools: schoolData,
     shootings: shootingsData,
     budget: budgetData
   };

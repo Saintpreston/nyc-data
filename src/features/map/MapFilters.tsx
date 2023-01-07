@@ -31,7 +31,7 @@ const MapDropDown = () => {
     dispatch(filterMap(value as MapFilter));
   };
 
-  const isTimeDisabled = currFilter === "All" || currFilter==="Mental Health Facilities" || currFilter === "Schools"
+ 
 
   const handleDateChange = (
     e: SelectChangeEvent) => {
@@ -68,7 +68,6 @@ const MapDropDown = () => {
             Time:
           </InputLabel>
           <Select
-            disabled={isTimeDisabled}
             value={dateFilter}
             name="map-view-options"
             id="map-view-options"

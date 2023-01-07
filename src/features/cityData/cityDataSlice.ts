@@ -69,9 +69,7 @@ const initialState: CityDataState = {
   mapStatus: "idle",
   shootings: [],
   arrests: [],
-  schools: [],
   budget: {},
-  mentalHealth: [],
   error: "",
   totalPopulation: 8_500_000,
   demographicsAsPercent : {
@@ -101,10 +99,8 @@ export const cityDataSlice = createSlice({
       })
       .addCase(fetchData.fulfilled, (state, action ) => {
         state.mapStatus = "complete";
-        const {arrests, mentalHealth, schools, shootings, budget} = action.payload;
+        const {arrests,  shootings, budget} = action.payload;
         state.arrests = arrests;
-        state.mentalHealth = mentalHealth;
-        state.schools = schools;
         state.shootings = shootings;
         state.budget = budget;
       })
@@ -117,10 +113,8 @@ export const cityDataSlice = createSlice({
 
 export const selectDemographics = (state: RootState) => state.cityData.demographicsAsPercent
 export const selectStatus = (state: RootState) => state.cityData.mapStatus;
-export const selectMentalHealth = (state: RootState) => state.cityData.mentalHealth;
 export const selectTotalPopulation = (state: RootState) => state.cityData.totalPopulation
 export const selectArrests = (state: RootState) => state.cityData.arrests;
 export const selectBudget = (state: RootState) => state.cityData.budget;
-export const selectSchools = (state: RootState) => state.cityData.schools;
 export const selectShootings = (state: RootState) => state.cityData.shootings;
 export default cityDataSlice.reducer;
