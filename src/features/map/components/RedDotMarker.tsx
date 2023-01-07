@@ -9,6 +9,7 @@ const RedDotMarker = styled(Box)(({ theme, ...props }) => ({
   border: "solid 1px red",
   overflow: "hidden",
   transition: "all 150ms",
+  cursor: 'pointer',
   "&:hover": {
     transform: "scale(1.6, 1.6)",
     backgroundColor: "rgba(120,0,0,0.2)",
