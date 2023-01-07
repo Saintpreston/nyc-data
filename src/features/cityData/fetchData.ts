@@ -14,8 +14,8 @@ async function getSchoolData() {
 
   try {
     const response = await axios.get(URL_HIGHSCHOLS);
-    const data: Array<School> = await response.data;
-    const result: Array<School> = [];
+    const data: School[] = await response.data;
+    const result: School[] = [];
 
     for (let index = 0; index < data.length; index++) {
       const curr = data[index];
@@ -125,9 +125,14 @@ async function getShootingsData() {
 }
 
 async function getBudgetData() {
-  
+ 
+
+  //TODO: Paginate this request, fetching 580,000 in one go is not optimal
+  //  "https://data.cityofnewyork.us/resource/mwzb-yiwb.json?$limit=580000";
+  console.time('budgetfetch')
+
   const URL =
-    "https://data.cityofnewyork.us/resource/mwzb-yiwb.json?$limit=580000";
+    "https://data.cityofnewyork.us/resource/mwzb-yiwb.json?";
   try {
     const response = await axios.get(URL);
     const data: Array<any> = await response.data;
@@ -162,6 +167,7 @@ async function getBudgetData() {
         result[department] += budget;
       }
     }
+    console.timeEnd('budgetfetch')
     return result;
   } catch (err) {
     console.log(err);
@@ -172,13 +178,13 @@ async function getBudgetData() {
 
 
 export async function getAllData(): Promise<CityDataAPI> {
-  console.time('fetch')
+  
   const arrestData = await getArrestsData();
   const mentalHealthData = await getMentalHealthData();
   const schoolData = await getSchoolData();
   const shootingsData = await getShootingsData();
   const budgetData = await getBudgetData();
-  console.timeEnd('fetch')
+
   return {
     arrests: arrestData,
     mentalHealth: mentalHealthData,
