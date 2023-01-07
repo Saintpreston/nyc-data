@@ -3,13 +3,6 @@ import { createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import { getAllData } from "./fetchData";
 
-export interface School {
-  latitude: string;
-  longitude: string;
-  dbn: string;
-  school_name: string;
-  
-}
 
 export interface Arrest {
   latitude: string;
@@ -24,13 +17,6 @@ export interface Arrest {
   pd_desc: string;
 }
 
-export interface MentalHealthFacility {
-  georeference: {
-    coordinates: number[];
-  };
-  facility_name: string;
-  populations_served: string;
-};
 
 export interface Shooting {
   latitude?: string;
@@ -56,8 +42,6 @@ export interface Budget {
 export interface CityDataAPI {
   shootings: [] |  Shooting[];
   arrests: [] | Arrest[];
-  mentalHealth: [] | MentalHealthFacility[];
-  schools: [] | School[];
   budget: {} | Budget;
   totalPopulation?: number;
   demographicsAsPercent?: {
