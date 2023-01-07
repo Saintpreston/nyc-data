@@ -7,7 +7,6 @@ import Typography  from '@mui/material/Typography';
 interface IProps {
 shooting: Shooting;
 toolTipPos: { current: { x: number; y: number } };
-markerRef: MutableRefObject<HTMLDivElement>;
 isHovered: boolean;
 }
 
@@ -15,7 +14,7 @@ isHovered: boolean;
 const  ShootingTooltip = React.forwardRef<MutableRefObject<HTMLDivElement> , IProps>( (props, ref) => {
 
 
- const {shooting, toolTipPos, markerRef, isHovered} = props;
+ const {shooting, toolTipPos, isHovered} = props;
 
  const shootingDate = new Date(shooting.occur_date);
   const renderDate = shootingDate.toLocaleDateString("en-US");
