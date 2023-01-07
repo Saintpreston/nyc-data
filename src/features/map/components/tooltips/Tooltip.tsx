@@ -28,11 +28,11 @@ const Tooltip = React.forwardRef<MutableRefObject<HTMLDivElement>, IProps>(
             zIndex: 9999,
             padding: 1,
             borderRadius: "8px",
-            backgroundColor: "#ffffff99",
+            backgroundColor: "rgba(255,220,220,0.5)",
             overflowWrap: "anywhere",
             flexDirection: "column",
             justifyContent: "center",
-            backdropFilter: "blur(8px) grayscale(0.8)",
+            backdropFilter: "blur(8px) saturate(2.2)",
             border: "solid 1px white",
             boxShadow: "0px 2px 12px 1px rgba(0,0,0,0.3)",
           }}

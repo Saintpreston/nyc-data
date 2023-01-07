@@ -25,6 +25,7 @@ export interface Shooting {
   occur_date: string;
   occur_time: string;
   incident_key: string;
+  vic_age_group: string,
 }
 
 export interface Budget {

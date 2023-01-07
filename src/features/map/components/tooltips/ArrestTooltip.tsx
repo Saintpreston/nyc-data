@@ -6,7 +6,7 @@ import { Typography } from "@mui/material";
 interface IProps {
   arrest: Arrest;
   toolTipPos: { current: { x: number; y: number } };
-  markerRef: MutableRefObject<HTMLDivElement>;
+
   isHovered: boolean;
 }
 

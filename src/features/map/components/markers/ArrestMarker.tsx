@@ -2,10 +2,10 @@
 // @ts-nocheck
 import * as React from "react";
 import { useState, useRef, useCallback } from "react";
-import { Arrest } from "../../cityData/cityDataSlice";
+import { Arrest } from "../../../cityData/cityDataSlice";
 import { InfoBox } from "@react-google-maps/api";
-import RedDotMarker from "./RedDotMarker";
-import { ArrestTooltip } from "./tooltips/ArrestTooltip";
+import RedDotMarker from "../RedDotMarker";
+import { ArrestTooltip } from "../tooltips/ArrestTooltip";
 
 interface IProps {
   arrest: Arrest;

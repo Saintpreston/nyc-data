@@ -12,8 +12,8 @@ async function getArrestsData() {
   const URL = "https://data.cityofnewyork.us/resource/uip8-fykc.json";
   try {
     const response = await axios.get(URL);
-    const data: Array<Arrest> = await response.data;
-    const result: Array<Arrest> = [];
+    const data:  Arrest[] = await response.data;
+    const result: Arrest[] = [];
 
     for (let index = 0; index < data.length; index++) {
       const curr = data[index];
@@ -61,6 +61,7 @@ async function getShootingsData() {
         occur_date,
         occur_time,
         incident_key,
+        vic_age_group
       } = curr;
       result.push({
         latitude,
@@ -69,6 +70,7 @@ async function getShootingsData() {
         occur_date,
         occur_time,
         incident_key,
+        vic_age_group
       });
     }
 

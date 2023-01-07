@@ -22,7 +22,8 @@ import {
   useTheme,
   Typography,
 } from "@mui/material";
-import ArrestMarker from "./components/ArrestMarker";
+import ArrestMarker from "./components/markers/ArrestMarker";
+import ShootingMarker from "./components/markers/ShootingMarker";
 
 function MapWrapper() {
   const theme = useTheme();
@@ -121,7 +122,6 @@ const Map = () => {
       });
     }
 
-
     function renderShootings() {
       const renderable = shootings.filter(
         (el) => Object.hasOwn(el, "latitude") && Object.hasOwn(el, "longitude")
@@ -148,14 +148,11 @@ const Map = () => {
         }
       });
 
-      const renderMarkers = filteredByDate.map((arr, i) => {
-        const lat = parseFloat(arr.latitude!);
-        const lng = parseFloat(arr.longitude!);
+      const renderMarkers = filteredByDate.map((arr) => {
+     
 
         return (
-          <Marker
-            key={arr.incident_key + "index:" + i}
-            position={{ lat: lat, lng: lng }}
+          <ShootingMarker shooting={arr}
           />
         );
       });
@@ -217,10 +214,8 @@ const Map = () => {
           strictBounds: true,
         },
       }}
-    >
-      
-     {renderData()}
-      
+    >   
+     {renderData()}     
     </GoogleMap>
   );
 };
