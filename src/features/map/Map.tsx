@@ -28,6 +28,7 @@ import ArrestMarker from "./components/ArrestMarker";
 
 function MapWrapper() {
   const theme = useTheme();
+
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_KEY!,
   });
@@ -118,22 +119,22 @@ const Map = () => {
       });
 
       return arrestsByDate.map((arr) => {
-        const lat = parseFloat(arr.latitude);
-        const lng = parseFloat(arr.longitude);
-
+      
         return (
-          <Marker key={arr.arrest_key} position={{ lat: lat, lng: lng }} />
+          <ArrestMarker key={arr.arrest_key} arrest={arr}  />
         );
       });
     }
 
     function renderMentalHealth() {
+       
+      // api  included the property even when it's undefined so Object.hasOwn() won't work  :)
+
       const renderable = mentalHealth.filter(
         (el) => el.georeference !== undefined
       );
-      /* 
-      api  included the property even when it's undefined so Object.hasOwn() didnt work  :)
-       */
+
+  
 
       const renderMarkers = renderable.map((el, i) => {
         const lng = el.georeference.coordinates[0];
@@ -223,7 +224,6 @@ const Map = () => {
   const [mapRef, setMapRef] = useState<google.maps.Map | null>(null);
   const handleOnLoad = (map: google.maps.Map) => {
     setMapRef(map);
-    setCurrBounds(JSON.stringify(mapRef?.getBounds()));
   };
   const [currBounds, setCurrBounds] = useState<undefined | string>();
 
@@ -241,14 +241,7 @@ const Map = () => {
     east: -73.38006004295815,
   };
 
-  const test = arrests.map((el) => {
 
-     
-
-    return (
-     <ArrestMarker arrest={el} key={el.arrest_key} />
-    );
-  })
 
  
 
@@ -271,7 +264,7 @@ const Map = () => {
       }}
     >
       
-     {test}
+     {renderData()}
       
     </GoogleMap>
   );

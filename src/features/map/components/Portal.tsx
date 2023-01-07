@@ -11,7 +11,7 @@ function Portal(props: IProps) {
 
  const {children} = props
 
-  return ReactDOM.createPortal(children, document.body)
+  return ReactDOM.createPortal(children, document.getElementById('tooltip-layer')!)
 }
 
 export default Portal
